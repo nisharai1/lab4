@@ -1,7 +1,8 @@
 name: Publish Package to GitHub NPM Registry
 
 on: 
-  ????: 
+  release:
+  types: [published]
     
 jobs:
     npm-package:
@@ -9,3 +10,13 @@ jobs:
       steps:
         - name: Checkout Repository
           uses: actions/checkout@v4
+        - name: setup NodeJs
+          uses: actions/setup-node@v4
+          with:
+            node-version: 20
+            registry-url: 'https://npm.pkg.github.com'
+        - name: Install NPM dependency
+          run: npm Install
+          env:
+            NODE_AUTH_TOKEN: ${{secrets.TOKEN}}
+
